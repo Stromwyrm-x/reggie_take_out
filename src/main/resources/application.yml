@@ -1,1 +1,11 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///reggie
+    username: root
+    password: wengyehao123
+    type: com.alibaba.druid.pool.DruidDataSource
+server:
+  port: 8080
+
 
