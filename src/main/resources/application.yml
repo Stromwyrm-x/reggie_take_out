@@ -4,8 +4,16 @@ spring:
     url: jdbc:mysql:///reggie
     username: root
     password: wengyehao123
-    type: com.alibaba.druid.pool.DruidDataSource
+    type: com.zaxxer.hikari.HikariDataSource
+  application:
+    name: reggie_take_out
 server:
   port: 8080
 
-
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto

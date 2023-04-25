@@ -12,10 +12,12 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employee implements Serializable {
+public class Employee implements Serializable
+{
 
     private static final long serialVersionUID = 1L;
 
+    //在application.yml里已经配置了主键自增长策略
     private Long id;
 
     private String username;

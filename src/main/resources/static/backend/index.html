@@ -193,6 +193,11 @@
             // this.headTitle = menu.name
             this.menuHandle(menu,false)
           },
+
+          /*页面交互解说:
+          * 主页上有iframe 点击每个按钮都会改变iframe的url，从而iframe就会跳转到不同页面。
+          * 每个页面的created方法会调init方法来发送异步请求给后端来请求数据
+          * */
           menuHandle(item, goBackFlag) {
             this.loading = true
             this.menuActived = item.id

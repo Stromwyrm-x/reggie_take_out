@@ -1,6 +1,6 @@
 /*!
  * Vue.js v2.6.12
- * (c) 2014-2020 Evan You
+ * (c) 2014-2020 Evan You 尤雨溪牛逼！
  * Released under the MIT License.
  */
 (function (global, factory) {

@@ -20,21 +20,32 @@ public class Result<T>
 
     private Map map = new HashMap(); //动态数据
 
-    public static <T> Result<T> success(T object) {
+    public static <T> Result<T> success(T object)
+    {
         Result<T> r = new Result<>();
         r.data = object;
         r.code = 1;
         return r;
     }
 
-    public static <T> Result<T> error(String msg) {
+    public static<T> Result<T> success()
+    {
+        Result<T> r=new Result<>();
+        r.code=1;
+        return r;
+    }
+
+    public static <T> Result<T> error(String msg)
+    {
         Result<T> r = new Result<>();
         r.msg = msg;
         r.code = 0;
         return r;
     }
 
-    public Result<T> add(String key, Object value) {
+    //操作动态数据
+    public Result<T> add(String key, Object value)
+    {
         this.map.put(key, value);
         return this;
     }
