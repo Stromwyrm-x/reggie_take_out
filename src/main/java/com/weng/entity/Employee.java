@@ -38,6 +38,7 @@ public class Employee implements Serializable
 
     private LocalDateTime updateTime;
 
+    //当前登录用户的id
     @TableField(fill = FieldFill.INSERT)
     private Long createUser;
 

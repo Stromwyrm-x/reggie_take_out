@@ -14,7 +14,7 @@
     // if (getToken() && !isToken) {
     //   config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     // }
-    // get请求映射params参数
+    // get请求映射params参数,将get的json格式转变成?后面的形式
     if (config.method === 'get' && config.params) {
       let url = config.url + '?';
       for (const propName of Object.keys(config.params)) {
@@ -42,7 +42,7 @@
       Promise.reject(error)
   })
 
-  // 响应拦截器
+  // response响应拦截器
   service.interceptors.response.use(res => {
       if (res.data.code === 0 && res.data.msg === 'NOTLOGIN') {// 返回登录页面
         console.log('---/backend/page/login/login.html---')

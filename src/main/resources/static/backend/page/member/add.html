@@ -154,6 +154,7 @@
             })
           },
           submitForm (formName, st) {
+            //校验格式是否正确
             this.$refs[formName].validate((valid) => {
               if (valid) {
                 if (this.actionType === 'add') {
