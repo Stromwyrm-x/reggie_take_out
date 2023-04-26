@@ -1,48 +1,60 @@
 package com.weng.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * 分类
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employee implements Serializable
-{
+public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //在application.yml里已经配置了主键自增长策略
     private Long id;
 
-    private String username;
-    private String password;
+
+    //类型 1 菜品分类 2 套餐分类
+    private Integer type;
+
+
+    //分类名称
     private String name;
 
-    private String phone;
 
-    private String sex;
+    //顺序
+    private Integer sort;
 
-    private String idNumber;
 
-    private Integer status;
-
+    //创建时间
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+
+    //更新时间
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
-    //当前登录用户的id
+
+    //创建人
     @TableField(fill = FieldFill.INSERT)
     private Long createUser;
 
+
+    //修改人
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
+
+
+    //是否删除
+//    private Integer isDeleted;
 
 }

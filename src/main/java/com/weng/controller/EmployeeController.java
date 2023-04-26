@@ -81,15 +81,21 @@ public class EmployeeController
         return Result.success();
     }
 
+    /**
+     * 会调用MyMetaObjectHandler,公共字段自动填充
+     * @param httpServletRequest
+     * @param employee
+     * @return
+     */
     @PostMapping
     public Result<String> add(HttpServletRequest httpServletRequest, @RequestBody Employee employee)
     {
         log.info("接受到的员工信息为:{}",employee);
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setCreateUser((Long) httpServletRequest.getSession().getAttribute("employee"));
-        employee.setUpdateUser((Long) httpServletRequest.getSession().getAttribute("employee"));
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setCreateUser((Long) httpServletRequest.getSession().getAttribute("employee"));
+//        employee.setUpdateUser((Long) httpServletRequest.getSession().getAttribute("employee"));
         employeeService.save(employee);
         return Result.success();
     }
@@ -112,12 +118,18 @@ public class EmployeeController
         return Result.success(pageInfo);
     }
 
+    /**
+     * 会调用MyMetaObjectHandler,公共字段自动填充
+     * @param httpServletRequest
+     * @param employee
+     * @return
+     */
     @PutMapping
     public Result<String> update(HttpServletRequest httpServletRequest,@RequestBody Employee employee)
     {
         LambdaQueryWrapper<Employee> lambdaQueryWrapper=new LambdaQueryWrapper<>();
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser((Long) httpServletRequest.getSession().getAttribute("employee"));
+//        employee.setUpdateTime(LocalDateTime.now());
+//        employee.setUpdateUser((Long) httpServletRequest.getSession().getAttribute("employee"));
         employeeService.updateById(employee);
         return Result.success();
     }

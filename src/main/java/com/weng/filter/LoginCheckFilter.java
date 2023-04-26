@@ -3,6 +3,7 @@ package com.weng.filter;
 import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.weng.common.Result;
+import com.weng.common.util.BaseContext;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,6 +53,10 @@ public class LoginCheckFilter implements Filter
         if (httpServletRequest.getSession().getAttribute("employee") != null)
         {
             log.info("用户已登录，id为{}",httpServletRequest.getSession().getAttribute("employee"));
+            //将登录的session中存储的id存入ThreadLocal中
+            Long employee_id = (Long) httpServletRequest.getSession().getAttribute("employee");
+            BaseContext.setCurrentId(employee_id);
+
             chain.doFilter(request, response);
             return;
         }
