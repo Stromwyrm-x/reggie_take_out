@@ -31,10 +31,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category>
     @Autowired
     private SetmealService setmealService;
 
+    /**
+     * 若菜品或套餐中有这个categoryId，那么不能删除
+     * @param ids
+     */
     @Override
     public void removeById(Long ids)
     {
-        //若菜品或套餐中有这个categoryId，那么不能删除
         LambdaQueryWrapper<Dish> dishLambdaQueryWrapper = new LambdaQueryWrapper<>();
         dishLambdaQueryWrapper.eq(Dish::getCategoryId, ids);
         //select count(*) from dish where category_id={ids}

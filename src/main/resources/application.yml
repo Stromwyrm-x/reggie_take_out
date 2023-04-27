@@ -17,3 +17,13 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+
+reggie:
+  path: D:/img/
+
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    accessKeyId: LTAI5tCCW42WHa7gC6eZB6HF
+    accessKeySecret: 4QNUiW0zGwgEV567BNOVmOEEg8R3dT
+    bucketName: my-reggie-take-out

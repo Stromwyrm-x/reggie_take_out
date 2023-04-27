@@ -41,7 +41,7 @@ public class Dish implements Serializable {
     private String code;
 
 
-    //图片
+    //图片、记录图片的文件名
     private String image;
 
 

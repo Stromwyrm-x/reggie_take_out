@@ -12,7 +12,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 public class GlobalExceptionHandler
 {
     /**
-     * 处理数据库异常,employee的username重复
+     * 处理数据库异常,employee的username重复，category的name重复
      * @param e
      * @return
      */
@@ -28,10 +28,21 @@ public class GlobalExceptionHandler
         return Result.error("未知错误!");
     }
 
+    /**
+     * 业务异常
+     * @param businessException
+     * @return
+     */
     @ExceptionHandler(BusinessException.class)
     public Result<String> businessExceptionHandler(BusinessException businessException)
     {
 
         return Result.error(businessException.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public Result<String> exceptionHandler(Exception e)
+    {
+        return Result.error("未知错误！");
     }
 }
