@@ -1,5 +1,6 @@
 package com.weng.common;
 
+import com.weng.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,7 +17,7 @@ public class GlobalExceptionHandler
      * @return
      */
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public Result<String> exceptionHandler(SQLIntegrityConstraintViolationException e)
+    public Result<String> sqlExceptionHandler(SQLIntegrityConstraintViolationException e)
     {
         log.error(e.getMessage());
         if (e.getMessage().contains("Duplicate entry"))
@@ -25,5 +26,12 @@ public class GlobalExceptionHandler
             return Result.error(message[2]+"已存在!");
         }
         return Result.error("未知错误!");
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public Result<String> businessExceptionHandler(BusinessException businessException)
+    {
+
+        return Result.error(businessException.getMessage());
     }
 }

@@ -1,4 +1,4 @@
-package com.weng.common;
+package com.weng.common.util;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -30,7 +30,7 @@ public class CategoryController
     {
         Page<Category> pageInfo=new Page<>(page,pageSize);
         LambdaQueryWrapper<Category> lambdaQueryWrapper=new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.orderByDesc(Category::getSort);
+        lambdaQueryWrapper.orderByAsc(Category::getSort);
 
         categoryService.page(pageInfo,lambdaQueryWrapper);
         return Result.success(pageInfo);

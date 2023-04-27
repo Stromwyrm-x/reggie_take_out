@@ -1,4 +1,4 @@
-package com.weng.common;
+package com.weng.common.util;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.weng.common.util.BaseContext;

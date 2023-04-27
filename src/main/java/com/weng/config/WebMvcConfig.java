@@ -1,6 +1,6 @@
 package com.weng.config;
 
-import com.weng.common.JacksonObjectMapper;
+import com.weng.common.util.JacksonObjectMapper;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
