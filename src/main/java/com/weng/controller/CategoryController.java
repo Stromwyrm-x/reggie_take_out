@@ -44,4 +44,10 @@ public class CategoryController
         return Result.success();
     }
 
+    @PutMapping
+    public Result<String> update (@RequestBody Category category)
+    {
+        categoryService.updateById(category);
+        return Result.success();
+    }
 }
