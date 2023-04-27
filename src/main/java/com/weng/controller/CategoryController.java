@@ -44,10 +44,13 @@ public class CategoryController
         return Result.success();
     }
 
+<<<<<<< HEAD
     @PutMapping
     public Result<String> update (@RequestBody Category category)
     {
         categoryService.updateById(category);
         return Result.success();
     }
+=======
+>>>>>>> c2065cb (删除分类功能完善，当分类关联着菜品或套餐时，无法删除该分类)
 }
