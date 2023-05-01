@@ -1,7 +1,9 @@
 package com.weng.service;
 
+import com.weng.dto.DishDto;
 import com.weng.entity.Dish;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
 * @author 24431
@@ -10,4 +12,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface DishService extends IService<Dish> {
 
+    @Transactional
+    void addWithFlavor(DishDto dishDto);
+
+    @Transactional
+    DishDto getByIdWithFlavor(Long id);
+
+    @Transactional
+    void updateWithFlavor(DishDto dishDto);
 }

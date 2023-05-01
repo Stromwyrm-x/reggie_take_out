@@ -40,6 +40,11 @@ public class GlobalExceptionHandler
         return Result.error(businessException.getMessage());
     }
 
+    /**
+     * Exception兜底
+     * @param e
+     * @return
+     */
     @ExceptionHandler(Exception.class)
     public Result<String> exceptionHandler(Exception e)
     {

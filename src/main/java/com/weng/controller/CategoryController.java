@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequestMapping("/category")
@@ -52,4 +54,21 @@ public class CategoryController
         return Result.success();
     }
 
+    /**
+     * 根据type，查询所有的分类
+     * @param category
+     * @return
+     */
+    @GetMapping("/list")
+    public Result<List<Category>> list(Category category)
+    {
+        LambdaQueryWrapper<Category> lambdaQueryWrapper=new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Category::getType,category.getType());
+        lambdaQueryWrapper.orderByAsc(Category::getSort);
+        lambdaQueryWrapper.orderByDesc(Category::getUpdateTime);
+        //select * from category where type={1}
+        List<Category> list = categoryService.list(lambdaQueryWrapper);
+
+        return Result.success(list);
+    }
 }

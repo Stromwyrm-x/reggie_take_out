@@ -21,6 +21,7 @@ public class AliyunUploadController
 
     /**
      * I fucking made it!
+     * 获取文件的url地址，从而可以直接传给前端的data中包含了url地址
      * @param file
      * @return
      * @throws IOException

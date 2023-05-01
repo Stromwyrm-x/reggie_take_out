@@ -57,7 +57,8 @@
         <el-table-column prop="image" label="图片" align="center">
           <template slot-scope="{ row }">
             <el-image style="width: auto; height: 40px; border:none;cursor: pointer;" 
-            :src="getImage(row.image)" 
+            :src="getImage(row.image)"
+
             :preview-src-list="[ `/common/download?name=${row.image}` ]" >
             <div slot="error" class="image-slot">
               <img src="./../../images/noImg.png"  style="width: auto; height: 40px; border:none;" >
@@ -119,7 +120,7 @@
       </el-table>
       <el-pagination
         class="pageList"
-        :page-sizes="[10, 20, 30, 40]"
+        :page-sizes="[3, 5, 10, 20]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="counts"
@@ -145,7 +146,7 @@
              input: '',
              counts: 0,
              page: 1,
-             pageSize: 10,
+             pageSize: 5,
              tableData : [],
              dishState : '',
              checkList: []
@@ -174,7 +175,8 @@
             })
           },
           getImage (image) {
-            return `/common/download?name=${image}`
+            // return `/common/download?name=${image}`
+            return image;
           },
           handleQuery() {
             this.page = 1;

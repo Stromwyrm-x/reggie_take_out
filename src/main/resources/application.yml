@@ -13,10 +13,10 @@ server:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    map-underscore-to-camel-case: true
+    map-underscore-to-camel-case: true #开启驼峰命名自动映射
   global-config:
     db-config:
-      id-type: auto
+      id-type: auto #设置id主键自增长
 
 reggie:
   path: D:/img/
