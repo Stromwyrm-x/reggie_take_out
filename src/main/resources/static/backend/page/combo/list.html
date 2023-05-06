@@ -150,7 +150,7 @@
              input: '',
              counts: 0,
              page: 1,
-             pageSize: 10,
+             pageSize: 5,
              tableData : [],
              dishState : '',
              checkList: []
@@ -179,7 +179,8 @@
             })
           },
           getImage (image) {
-            return `/common/download?name=${image}`
+            // return `/common/download?name=${image}`
+            return image
           },
           handleQuery() {
             this.page = 1;

@@ -47,13 +47,14 @@ public class DishController
         dishService.page(dishPage, lambdaQueryWrapper);
 
         Page<DishDto> dishDtoPage = new Page<>();
-        BeanUtils.copyProperties(dishPage, dishDtoPage,"records");
+        BeanUtils.copyProperties(dishPage, dishDtoPage, "records");
 
         //获取原records数据
         List<Dish> records = dishPage.getRecords();
 
         //遍历每一条records数据
-        List<DishDto> list = records.stream().map((item) -> {
+        List<DishDto> list = records.stream().map((item) ->
+        {
             DishDto dishDto = new DishDto();
             //将数据赋给dishDto对象
             BeanUtils.copyProperties(item, dishDto);
@@ -90,5 +91,40 @@ public class DishController
 
         return Result.success();
     }
+
+    /**
+     * 根据分类id查找dish的集合
+     *
+     * @return
+     */
+    @GetMapping("/list")
+    public Result<List<Dish>> getByCategoryId(Dish dish)
+    {
+        LambdaQueryWrapper<Dish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        //只显示启售状态的菜品
+        lambdaQueryWrapper.eq(Dish::getStatus, 1);
+        lambdaQueryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
+        lambdaQueryWrapper.orderByAsc(Dish::getSort);
+        lambdaQueryWrapper.orderByDesc(Dish::getUpdateTime);
+        List<Dish> list = dishService.list(lambdaQueryWrapper);
+        return Result.success(list);
+    }
+
+    @DeleteMapping
+    public Result<String> deleteById(@RequestParam List<Long> ids)
+    {
+        dishService.deleteWithFlavor(ids);
+
+        return Result.success();
+    }
+
+    @PostMapping("/status/{status}")
+    public Result<String> status(@PathVariable Integer status,
+                                 @RequestParam(name = "ids") List<Long> ids)
+    {
+        dishService.updateStatus(status,ids);
+        return Result.success();
+    }
+
 
 }

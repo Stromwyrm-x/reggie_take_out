@@ -18,12 +18,12 @@ mybatis-plus:
     db-config:
       id-type: auto #设置id主键自增长
 
-reggie:
-  path: D:/img/
+#reggie:
+#  path: D:/img/
 
 aliyun:
   oss:
     endpoint: https://oss-cn-beijing.aliyuncs.com
     accessKeyId: LTAI5tCCW42WHa7gC6eZB6HF
-    accessKeySecret: 4QNUiW0zGwgEV567BNOVmOEEg8R3dT
+    accessKeySecret: 4QNUiW0zGwgEV567BNOVmOEEg8R3dT #不会有人会拿一个免费的账号传什么图片吧，不会吧
     bucketName: my-reggie-take-out

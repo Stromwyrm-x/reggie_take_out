@@ -1,24 +1,20 @@
 package com.weng.dto;
 
-import com.weng.entity.Dish;
-import com.weng.entity.DishFlavor;
+import com.weng.entity.Setmeal;
+import com.weng.entity.SetmealDish;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DishDto extends Dish {
+public class SetmealDto extends Setmeal
+{
 
-    private List<DishFlavor> flavors = new ArrayList<>();
+    private List<SetmealDish> setmealDishes;
 
     private String categoryName;
-
-    private Integer copies;
-
-
 }

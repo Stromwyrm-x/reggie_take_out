@@ -231,9 +231,11 @@
                 this.$message.error('批量操作，请先勾选操作菜品！')
                 return false
               }
+              /*批量停售启售时，直接给status赋值对应的1或者0*/
               params.id = this.checkList.join(',')
               params.status = row
             } else {
+              /*一行行停售启售时，根据这一行的状态，来赋值status，若是停售0，则赋值1，若是启售1，则赋值0*/
               params.id = row.id
               params.status = row.status ? '0' : '1'
             }

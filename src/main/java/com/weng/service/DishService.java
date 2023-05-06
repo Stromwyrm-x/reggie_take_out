@@ -5,6 +5,8 @@ import com.weng.entity.Dish;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
 * @author 24431
 * @description 针对表【dish(菜品管理)】的数据库操作Service
@@ -20,4 +22,10 @@ public interface DishService extends IService<Dish> {
 
     @Transactional
     void updateWithFlavor(DishDto dishDto);
+
+    @Transactional
+    void deleteWithFlavor(List<Long> ids);
+
+    @Transactional
+    void updateStatus(Integer status,List<Long> ids);
 }

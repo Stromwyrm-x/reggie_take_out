@@ -1,7 +1,11 @@
 package com.weng.service;
 
+import com.weng.dto.SetmealDto;
 import com.weng.entity.Setmeal;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
 * @author 24431
@@ -10,4 +14,18 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface SetmealService extends IService<Setmeal> {
 
+    @Transactional
+    void addWithSetmealDish(SetmealDto setmealDto);
+
+    @Transactional
+    SetmealDto getByIdWithSetmealDish(Long id);
+
+    @Transactional
+    void updateWithSetmealDish(SetmealDto setmealDto);
+
+    @Transactional
+    void deleteWithSetmealDish(List<Long> ids);
+
+    @Transactional
+    void updateStatus(Integer status, List<Long> ids);
 }
