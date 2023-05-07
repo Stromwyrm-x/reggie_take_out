@@ -63,7 +63,7 @@ public class CategoryController
     public Result<List<Category>> list(Category category)
     {
         LambdaQueryWrapper<Category> lambdaQueryWrapper=new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(Category::getType,category.getType());
+        lambdaQueryWrapper.eq(category.getType()!=null,Category::getType,category.getType());
         lambdaQueryWrapper.orderByAsc(Category::getSort);
         lambdaQueryWrapper.orderByDesc(Category::getUpdateTime);
         //select * from category where type={1}

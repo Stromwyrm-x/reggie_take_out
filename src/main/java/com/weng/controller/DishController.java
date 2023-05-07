@@ -97,17 +97,35 @@ public class DishController
      *
      * @return
      */
+//    @GetMapping("/list")
+//    public Result<List<Dish>> listByCategoryId(Dish dish)
+//    {
+//        LambdaQueryWrapper<Dish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+//        //只显示启售状态的菜品
+//        lambdaQueryWrapper.eq(Dish::getStatus, 1);
+//        lambdaQueryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
+//        lambdaQueryWrapper.orderByAsc(Dish::getSort);
+//        lambdaQueryWrapper.orderByDesc(Dish::getUpdateTime);
+//        List<Dish> list = dishService.list(lambdaQueryWrapper);
+//        return Result.success(list);
+//    }
+
     @GetMapping("/list")
-    public Result<List<Dish>> getByCategoryId(Dish dish)
+    public Result<List<DishDto>> listByCategoryId(Dish dish)
     {
         LambdaQueryWrapper<Dish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         //只显示启售状态的菜品
         lambdaQueryWrapper.eq(Dish::getStatus, 1);
         lambdaQueryWrapper.eq(dish.getCategoryId() != null, Dish::getCategoryId, dish.getCategoryId());
-        lambdaQueryWrapper.orderByAsc(Dish::getSort);
-        lambdaQueryWrapper.orderByDesc(Dish::getUpdateTime);
+        lambdaQueryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
         List<Dish> list = dishService.list(lambdaQueryWrapper);
-        return Result.success(list);
+
+        List<DishDto>dtoList=list.stream().map(item->{
+            DishDto dishDto = dishService.getByIdWithFlavor(item.getId());
+            return dishDto;
+        }).collect(Collectors.toList());
+
+        return Result.success(dtoList);
     }
 
     @DeleteMapping

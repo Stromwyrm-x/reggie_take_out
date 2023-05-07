@@ -35,7 +35,7 @@ public class UserController
             String code = ValidateCodeUtils.generateValidateCode(4).toString();
             log.info("生成的验证码为:{}", code);
             //注意:短信签名和模板要相互关联才行，不能使用赠送的模板
-            SMSUtils.sendMessage("瑞吉外卖", "SMS_460710688", phone, code);
+            //SMSUtils.sendMessage("瑞吉外卖", "SMS_460710688", phone, code);
 
             //将code和phone存在session中，方便后续登陆时，拿填的code和得到的code对比
             httpServletRequest.getSession().setAttribute("code", code);
@@ -76,7 +76,14 @@ public class UserController
         return Result.error("手机号或验证码不匹配!");
     }
 
-
+    @PostMapping("/loginout")
+    public Result<String> logout(HttpServletRequest httpServletRequest)
+    {
+        httpServletRequest.getSession().removeAttribute("user");
+        httpServletRequest.getSession().removeAttribute("code");
+        httpServletRequest.getSession().removeAttribute("phone");
+        return Result.success();
+    }
 
 
 }

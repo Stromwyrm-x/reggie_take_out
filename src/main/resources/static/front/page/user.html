@@ -181,9 +181,10 @@
                 async toPageLogin(){
                     const res = await loginoutApi()
                     if(res.code === 1){
+                        sessionStorage.removeItem('userPhone')
                         window.requestAnimationFrame(()=>{
                             window.location.href = '/front/page/login.html'
-                        }) 
+                        })
                     }else{
                         this.$notify({ type:'warning', message:res.msg});
                     }                
