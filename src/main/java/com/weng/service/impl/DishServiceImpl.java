@@ -146,7 +146,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish>
             Long count = setmealDishMapper.selectCount(setmealDishLambdaQueryWrapper);
             if (count>0)
             {
-                throw new BusinessException("不能停售正处于套餐里的菜品");
+                throw new BusinessException("不能停售正处于售卖套餐中的菜品");
             }
         }
 

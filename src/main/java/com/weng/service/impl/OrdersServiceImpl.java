@@ -87,7 +87,7 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
             return orderDetail;
         }).collect(Collectors.toList());
 
-        //添加订单表
+        //添加订单表,若要BeanUtils复制，则要注意，不能复制id
         orders.setNumber(String.valueOf(order_number));
         orders.setStatus(2);
         orders.setUserId(user_id);

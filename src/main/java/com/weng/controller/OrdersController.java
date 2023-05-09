@@ -8,8 +8,10 @@ import com.weng.common.util.BaseContext;
 import com.weng.dto.OrdersDto;
 import com.weng.entity.OrderDetail;
 import com.weng.entity.Orders;
+import com.weng.entity.ShoppingCart;
 import com.weng.service.OrderDetailService;
 import com.weng.service.OrdersService;
+import com.weng.service.ShoppingCartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class OrdersController
 
     @Autowired
     private OrderDetailService orderDetailService;
+
+    @Autowired
+    private ShoppingCartService shoppingCartService;
 
     @PostMapping("/submit")
     public Result<String> submit(@RequestBody Orders orders)
@@ -96,8 +101,8 @@ public class OrdersController
 
         ordersLambdaQueryWrapper.eq(number != null, Orders::getNumber, number);
         ordersLambdaQueryWrapper.gt(beginTime != null, Orders::getOrderTime, beginTime)
-                                .lt(endTime != null, Orders::getOrderTime, endTime);
-        ordersService.page(ordersPage,ordersLambdaQueryWrapper);
+                .lt(endTime != null, Orders::getOrderTime, endTime);
+        ordersService.page(ordersPage, ordersLambdaQueryWrapper);
 
         return Result.success(ordersPage);
     }
@@ -110,6 +115,41 @@ public class OrdersController
     {
 
         ordersService.updateById(orders);
+        return Result.success();
+    }
+
+    /**
+     * 再来一单（当该订单的状态为4，即已完成时）
+     * 可以直接根据传来的orders的id,直接加入购物车
+     */
+    @PostMapping("/again")
+    public Result<String> orderAgain(@RequestBody Orders orders)
+    {
+        Long user_id = BaseContext.getCurrentId();
+        //★先清空购物车
+        LambdaQueryWrapper<ShoppingCart> shoppingCartLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        shoppingCartLambdaQueryWrapper.eq(ShoppingCart::getUserId,user_id);
+        shoppingCartService.remove(shoppingCartLambdaQueryWrapper);
+
+        //再根据orders的id，还原购物车
+        Orders ordersServiceById = ordersService.getById(orders.getId());
+        LambdaQueryWrapper<OrderDetail>orderDetailLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        orderDetailLambdaQueryWrapper.eq(OrderDetail::getOrderId,ordersServiceById.getNumber());
+        List<OrderDetail> orderDetailList = orderDetailService.list(orderDetailLambdaQueryWrapper);
+
+        List<ShoppingCart> shoppingCartList = orderDetailList.stream().map(item ->
+        {
+
+            ShoppingCart shoppingCart = new ShoppingCart();
+            BeanUtils.copyProperties(item, shoppingCart, "id");
+            shoppingCart.setUserId(user_id);
+            shoppingCart.setCreateTime(LocalDateTime.now());
+
+            return shoppingCart;
+        }).collect(Collectors.toList());
+        //如果没有清空购物车，则要判断是否number为>=1,这样要加number，而不是insert!
+        shoppingCartService.saveBatch(shoppingCartList);
+
         return Result.success();
     }
 
