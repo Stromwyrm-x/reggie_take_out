@@ -68,7 +68,8 @@ public class ShoppingCartController
         Long user_id = BaseContext.getCurrentId();
         LambdaQueryWrapper<ShoppingCart> shoppingCartLambdaQueryWrapper = new LambdaQueryWrapper<>();
         shoppingCartLambdaQueryWrapper.eq(ShoppingCart::getUserId, user_id);
-        shoppingCartLambdaQueryWrapper.orderByDesc(ShoppingCart::getCreateTime);
+        //新加入购物车的添加到购物车最底下
+        shoppingCartLambdaQueryWrapper.orderByAsc(ShoppingCart::getCreateTime);
         List<ShoppingCart> shoppingCartList = shoppingCartService.list(shoppingCartLambdaQueryWrapper);
         return Result.success(shoppingCartList);
     }
