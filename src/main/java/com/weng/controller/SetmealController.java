@@ -3,10 +3,14 @@ package com.weng.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weng.common.Result;
+import com.weng.dto.DishDto;
 import com.weng.dto.SetmealDto;
 import com.weng.entity.Category;
+import com.weng.entity.Dish;
 import com.weng.entity.Setmeal;
+import com.weng.entity.SetmealDish;
 import com.weng.service.CategoryService;
+import com.weng.service.DishService;
 import com.weng.service.SetmealDishService;
 import com.weng.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +34,9 @@ public class SetmealController
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private DishService dishService;
 
     @PostMapping
     public Result<String> add(@RequestBody SetmealDto setmealDto)
@@ -80,6 +87,46 @@ public class SetmealController
     {
         SetmealDto setmealDto = setmealService.getByIdWithSetmealDish(id);
         return Result.success(setmealDto);
+    }
+
+    /**
+     * 根据setmeal的id来查找包含的dish,此dish中还要包含setmealdish
+     * @param id
+     * @return
+     */
+    @GetMapping("/dish/{id}")
+    public Result<List<DishDto>> getDish(@PathVariable Long id)
+    {
+        LambdaQueryWrapper<SetmealDish> setmealDishLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        setmealDishLambdaQueryWrapper.eq(SetmealDish::getSetmealId,id);
+        List<SetmealDish> setmealDishList = setmealDishService.list(setmealDishLambdaQueryWrapper);
+
+        List<DishDto> dishDtos = setmealDishList.stream().map(item ->
+        {
+            DishDto dishDto = new DishDto();
+//            BeanUtils.copyProperties(item, dishDto);
+            Dish dish = dishService.getById(item.getDishId());
+            BeanUtils.copyProperties(dish,dishDto);
+            //dishDto中包含了copies,应该就是用来记录一个setmeal里对应的一种dish总共有几份
+            dishDto.setCopies(item.getCopies());
+            return dishDto;
+        }).collect(Collectors.toList());
+
+        return Result.success(dishDtos);
+    }
+
+
+    @GetMapping("/list")
+    public Result<List<Setmeal>> listByCategoryId(Setmeal setmeal)
+    {
+        LambdaQueryWrapper<Setmeal> setmealLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        setmealLambdaQueryWrapper.eq(Setmeal::getStatus,1);
+        setmealLambdaQueryWrapper.eq(setmeal.getCategoryId()!=null,Setmeal::getCategoryId,setmeal.getCategoryId());
+        setmealLambdaQueryWrapper.orderByDesc(Setmeal::getUpdateTime);
+        List<Setmeal> setmealList = setmealService.list(setmealLambdaQueryWrapper);
+
+
+        return Result.success(setmealList);
     }
 
     @PutMapping

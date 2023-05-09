@@ -295,6 +295,7 @@
           methods:{
             //初始化数据
             initData(){
+              //查询菜品、套餐和购物车信息(传了个空的data)
               Promise.all([categoryListApi(),cartListApi({})]).then(res=>{
                 //获取分类数据
                 if(res[0].code === 1){

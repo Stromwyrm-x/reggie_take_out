@@ -18,6 +18,7 @@ public class DishDto extends Dish {
 
     private String categoryName;
 
+    // 用来移动端返回的，卧槽！！！用于表示对应的setmeal当中的dish的份数
     private Integer copies;
 
 
