@@ -113,6 +113,7 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish>
     public void deleteWithFlavor(List<Long> ids)
     {
         LambdaQueryWrapper<Dish> dishLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        //批量删除
         dishLambdaQueryWrapper.in(Dish::getId, ids);
         //只查询启售的菜品
         dishLambdaQueryWrapper.eq(Dish::getStatus, 1);

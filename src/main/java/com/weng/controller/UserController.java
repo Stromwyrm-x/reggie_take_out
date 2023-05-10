@@ -11,10 +11,7 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -85,5 +82,31 @@ public class UserController
         return Result.success();
     }
 
+    /**
+     * 目前前端还未实现
+     * @param phone
+     * @return
+     */
+    @GetMapping
+    public Result<User> getById(String phone)
+    {
+        LambdaQueryWrapper<User>userLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        userLambdaQueryWrapper.eq(User::getPhone,phone);
+        User user = userService.getOne(userLambdaQueryWrapper);
+
+        return Result.success(user);
+    }
+
+    /**
+     * 目前前端还未实现
+     * @param user
+     * @return
+     */
+    @PutMapping
+    public Result<String> update(@RequestBody User user)
+    {
+        userService.updateById(user);
+        return Result.success();
+    }
 
 }

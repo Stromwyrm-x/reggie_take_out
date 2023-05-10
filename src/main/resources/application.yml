@@ -7,6 +7,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
   application:
     name: reggie_take_out
+
 server:
   port: 8080
 

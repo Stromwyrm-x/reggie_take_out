@@ -100,8 +100,8 @@ public class OrdersController
         ordersLambdaQueryWrapper.orderByDesc(Orders::getOrderTime);
 
         ordersLambdaQueryWrapper.eq(number != null, Orders::getNumber, number);
-        ordersLambdaQueryWrapper.gt(beginTime != null, Orders::getOrderTime, beginTime)
-                .lt(endTime != null, Orders::getOrderTime, endTime);
+        ordersLambdaQueryWrapper.ge(beginTime != null, Orders::getOrderTime, beginTime)
+                .le(endTime != null, Orders::getOrderTime, endTime);
         ordersService.page(ordersPage, ordersLambdaQueryWrapper);
 
         return Result.success(ordersPage);
