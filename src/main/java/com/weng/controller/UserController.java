@@ -11,9 +11,13 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
@@ -22,6 +26,9 @@ public class UserController
 {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @PostMapping("/sendMsg")
     public Result<String> sendMsg(@RequestBody User user, HttpServletRequest httpServletRequest)
@@ -35,8 +42,14 @@ public class UserController
 //            SMSUtils.sendMessage("瑞吉外卖", "SMS_460710688", phone, code);
 
             //将code和phone存在session中，方便后续登陆时，拿填的code和得到的code对比
-            httpServletRequest.getSession().setAttribute("code", code);
-            httpServletRequest.getSession().setAttribute("phone", phone);
+//            httpServletRequest.getSession().setAttribute("code", code);
+//            httpServletRequest.getSession().setAttribute("phone", phone);
+
+            //项目优化，将code和phone存在redis中，增加访问效率
+            ValueOperations<String, String> opsForValue = stringRedisTemplate.opsForValue();
+            opsForValue.set("code",code, 5L, TimeUnit.MINUTES);
+            opsForValue.set("phone",phone,5L,TimeUnit.MINUTES);
+
             return Result.success();
         }
         return Result.error("手机号不能为空!");
@@ -50,8 +63,11 @@ public class UserController
         String code = map.get("code").toString();
 
 
-        Object phoneInSession = httpServletRequest.getSession().getAttribute("phone");
-        Object codeInSession = httpServletRequest.getSession().getAttribute("code");
+//        Object phoneInSession = httpServletRequest.getSession().getAttribute("phone");
+//        Object codeInSession = httpServletRequest.getSession().getAttribute("code");
+        ValueOperations<String, String> opsForValue = stringRedisTemplate.opsForValue();
+        String codeInSession = opsForValue.get("code");
+        String phoneInSession = opsForValue.get("phone");
 
         if (codeInSession != null && codeInSession.equals(code) && phoneInSession != null && phoneInSession.equals(phone))
         {
@@ -65,8 +81,16 @@ public class UserController
                 user.setPhone(phone);
                 userService.save(user);
             }
+
             //存入session,便于filter来进行过滤
             httpServletRequest.getSession().setAttribute("user", user.getId());
+
+            //登录成功后，删除redis中的数据
+            stringRedisTemplate.delete("code");
+            stringRedisTemplate.delete("phone");
+//            opsForValue.getAndDelete("code");
+//            opsForValue.getAndDelete("phone");
+
             return Result.success(user);
         }
 
@@ -77,8 +101,8 @@ public class UserController
     public Result<String> logout(HttpServletRequest httpServletRequest)
     {
         httpServletRequest.getSession().removeAttribute("user");
-        httpServletRequest.getSession().removeAttribute("code");
-        httpServletRequest.getSession().removeAttribute("phone");
+//        httpServletRequest.getSession().removeAttribute("code");
+//        httpServletRequest.getSession().removeAttribute("phone");
         return Result.success();
     }
 

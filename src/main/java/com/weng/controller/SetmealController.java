@@ -16,6 +16,8 @@ import com.weng.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,6 +40,8 @@ public class SetmealController
     @Autowired
     private DishService dishService;
 
+
+    @CacheEvict(value = "setmealCache",key = "'setmeal_'+#setmealDto.categoryId")
     @PostMapping
     public Result<String> add(@RequestBody SetmealDto setmealDto)
     {
@@ -116,6 +120,7 @@ public class SetmealController
     }
 
 
+    @Cacheable(value = "setmealCache",key = "'setmeal_'+#setmeal.categoryId")
     @GetMapping("/list")
     public Result<List<Setmeal>> listByCategoryId(Setmeal setmeal)
     {
@@ -129,6 +134,7 @@ public class SetmealController
         return Result.success(setmealList);
     }
 
+    @CacheEvict(value = "setmealCache",allEntries = true)
     @PutMapping
     public Result<String> update(@RequestBody SetmealDto setmealDto)
     {
@@ -151,6 +157,7 @@ public class SetmealController
         return Result.success();
     }
 
+    @CacheEvict(value = "setmealCache",allEntries = true)
     @PostMapping("/status/{status}")
     public Result<String> status(@PathVariable Integer status, @RequestParam List<Long> ids)
     {
