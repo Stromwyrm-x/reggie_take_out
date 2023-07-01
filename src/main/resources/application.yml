@@ -88,3 +88,48 @@ aliyun:
     accessKeyId: LTAI5tCCW42WHa7gC6eZB6HF
     accessKeySecret: 4QNUiW0zGwgEV567BNOVmOEEg8R3dT #不会有人会拿一个免费的账号传什么图片吧，不会吧
     bucketName: my-reggie-take-out
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///reggie
+    username: root
+    password: 151201
+    type: com.zaxxer.hikari.HikariDataSource
+  application:
+    name: reggie_take_out
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      #password: wengyehao123
+      database: 0
+      client-type: lettuce #springboot默认使用lettuce
+  cache:
+    redis:
+      time-to-live: 1800000 #以ms为单位
+
+server:
+  port: 8080
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true #开启驼峰命名自动映射
+  global-config:
+    db-config:
+      id-type: auto #设置id主键自增长
+
+#reggie:
+#  path: D:/img/
+
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    accessKeyId: LTAI5tCCW42WHa7gC6eZB6HF
+    accessKeySecret: 4QNUiW0zGwgEV567BNOVmOEEg8R3dT #不会有人会拿一个免费的账号传什么图片吧，不会吧
+    bucketName: my-reggie-take-out
