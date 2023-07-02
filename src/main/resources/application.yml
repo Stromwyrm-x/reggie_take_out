@@ -54,17 +54,17 @@ spring:
       on-profile: pro
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.240.134:3306/reggie
+    url: jdbc:mysql://10.13.0.128:3306/reggie
     username: root
-    password: wengyehao123
+    password: root
     type: com.zaxxer.hikari.HikariDataSource
   application:
     name: reggie_take_out
   data:
     redis:
-      host: 192.168.240.134
+      host: 10.13.0.128
       port: 6379
-      password: wengyehao123
+      #password: wengyehao123
       database: 0
       client-type: lettuce #springboot默认使用lettuce
   cache:
