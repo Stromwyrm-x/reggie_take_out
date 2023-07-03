@@ -182,7 +182,7 @@
         methods: {
           //骑手端操作
           shouldShowSubMenu(item) {
-            if (this.userInfo.name === 'faker') {
+            if (this.userInfo.username === 'faker') {
               // 当 userInfo.name 为 "faker" 时，根据菜单项的 id 进行判断
               return item.id === '6'; // 只显示订单明细菜单项
             }
