@@ -61,7 +61,8 @@
                     </el-menu-item
                   >
                 </el-submenu>
-                <el-menu-item v-else :index="item.id" @click="menuHandle(item,false)">
+                <!--骑手端的话，只展示item6-->
+                <el-menu-item v-else :index="item.id" @click="menuHandle(item,false)" v-if="shouldShowSubMenu(item)">
                   <i class="iconfont" :class="item.icon"></i>
                   <span slot="title">{{item.name}}</span>
                 </el-menu-item>
@@ -155,6 +156,7 @@
               //   ],
               // },
             ],
+
             iframeUrl: 'page/member/list.html',
             headTitle: '员工管理',
             goBackFlag: false,
@@ -178,6 +180,14 @@
           window.menuHandle = this.menuHandle
         },
         methods: {
+          //骑手端操作
+          shouldShowSubMenu(item) {
+            if (this.userInfo.name === 'faker') {
+              // 当 userInfo.name 为 "faker" 时，根据菜单项的 id 进行判断
+              return item.id === '6'; // 只显示订单明细菜单项
+            }
+            return true; // 其他情况下显示所有菜单项
+          },
           logout() {
             logoutApi().then((res)=>{
               if(res.code === 1){
