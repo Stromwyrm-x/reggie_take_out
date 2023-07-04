@@ -89,7 +89,7 @@
               派送
             </el-button>
             <el-divider v-if="row.status === 3" direction="vertical"></el-divider>
-            <el-button v-if="row.status === 3 "  type="text" @click="cancelOrDeliveryOrComplete(4, row.id)" class="blueBug" >
+            <el-button v-if="row.status === 3 && isAdmin"  type="text" @click="cancelOrDeliveryOrComplete(4, row.id)" class="blueBug" >
               完成
             </el-button>
           </template>
@@ -195,7 +195,8 @@
              tableData : [],
              dialogVisible: false,
              diaForm: {},
-             loading: false
+             loading: false,
+             isAdmin:true, // 是否为管理员
           }
         },
         computed: {},
@@ -211,7 +212,12 @@
           }
         },
         created() {
-          const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+          const userInfo = window.localStorage.getItem('userInfo')
+          if (userInfo) {
+            if(JSON.parse(userInfo).username == 'faker') {
+              this.isAdmin = false
+            }
+          }
           this.init()
         },
         mounted() {
