@@ -169,6 +169,55 @@
           const userInfo = window.localStorage.getItem('userInfo')
           if (userInfo) {
             this.userInfo = JSON.parse(userInfo)
+            if(this.userInfo.username == 'faker') { // 单独筛选出特定账号 重新配置导航栏
+              this.menuList = [
+                {
+                  id: '6',
+                  name: '订单明细',
+                  url: 'page/order/list.html',
+                  icon: 'icon-order'
+                }
+              ]
+              this.menuHandle({
+                id: '6',
+                name: '订单明细',
+                url: 'page/order/list.html',
+                icon: 'icon-order'
+              },false)
+            } else { //默认显示全部
+              this.menuList = [
+                {
+                  id: '2',
+                  name: '员工管理',
+                  url: 'page/member/list.html',
+                  icon: 'icon-member'
+                },
+                {
+                  id: '3',
+                  name: '分类管理',
+                  url: 'page/category/list.html',
+                  icon: 'icon-category'
+                },
+                {
+                  id: '4',
+                  name: '菜品管理',
+                  url: 'page/food/list.html',
+                  icon: 'icon-food'
+                },
+                {
+                  id: '5',
+                  name: '套餐管理',
+                  url: 'page/combo/list.html',
+                  icon: 'icon-combo'
+                },
+                {
+                  id: '6',
+                  name: '订单明细',
+                  url: 'page/order/list.html',
+                  icon: 'icon-order'
+                }
+              ]
+            }
           }
           this.closeLoading()
         },
