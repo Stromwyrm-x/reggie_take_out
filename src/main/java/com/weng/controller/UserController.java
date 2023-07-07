@@ -7,11 +7,9 @@ import com.weng.common.util.SMSUtils;
 import com.weng.common.util.ValidateCodeUtils;
 import com.weng.entity.User;
 import com.weng.service.UserService;
-import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +37,7 @@ public class UserController
             String code = ValidateCodeUtils.generateValidateCode(4).toString();
             log.info("生成的验证码为:{}", code);
             //注意:短信签名和模板要相互关联才行，不能使用赠送的模板
-//            SMSUtils.sendMessage("瑞吉外卖", "SMS_460710688", phone, code);
+            SMSUtils.sendMessage("瑞吉外卖", "SMS_460710688", phone, code);
 
             //将code和phone存在session中，方便后续登陆时，拿填的code和得到的code对比
 //            httpServletRequest.getSession().setAttribute("code", code);
